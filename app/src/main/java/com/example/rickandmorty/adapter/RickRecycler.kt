@@ -1,15 +1,14 @@
 package com.example.rickandmorty.adapter
 
 import android.annotation.SuppressLint
-import android.app.Dialog
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.rickandmorty.DetailsScreen
 import com.example.rickandmorty.R
 import com.example.rickandmorty.models.Result
 import de.hdodenhof.circleimageview.CircleImageView
@@ -60,15 +59,15 @@ class RickRecycler : RecyclerView.Adapter<RickRecycler.ViewHolder>() {
         holder.name.text = item.name
 
         holder.characterImage.setOnClickListener {
-            val dialog = Dialog(holder.itemView.context)
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog.setContentView(R.layout.image_popup)
-
-            val image = dialog.findViewById<ImageView>(R.id.popup_image)
-            Glide.with(holder.itemView.context).load(item.image).into(image)
-
-            dialog.show()
+            val intent = Intent(holder.itemView.context, DetailsScreen::class.java)
+            intent.putExtra("image", item.image)
+            intent.putExtra("name", item.name)
+            intent.putExtra("species", item.species)
+            intent.putExtra("gender", item.gender)
+            intent.putExtra("status", item.status)
+            holder.itemView.context.startActivity(intent)
         }
+
     }
 
     override fun getItemCount(): Int {
